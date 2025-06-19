@@ -1,0 +1,29 @@
+---
+name: Validate YAML config.yaml
+run-name: Validate YAML
+
+permissions:
+  actions: read
+  contents: read
+  id-token: none
+
+on:
+  workflow_call:
+    inputs:
+      config_path:
+        required: false
+        type: string
+        default: config.yaml
+    secrets: {}
+
+jobs:
+  validate-yaml-config:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate YAML config file
+        uses: GrantBirki/json-yaml-validate@v3
+        with:
+          mode: fail
+          files: ${{ inputs.config_path }}
+...
